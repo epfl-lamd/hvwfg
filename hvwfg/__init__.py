@@ -1,6 +1,11 @@
+from ._version import get_versions
 from .hv4dr import hv4dr
 from .hv5dr import hv5dr
 from .wfg import wfg
+
+
+__version__ = get_versions()['version']
+del get_versions
 
 
 def hv(front, ref, force_wfg=False):

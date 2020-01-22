@@ -1,0 +1,3 @@
+include versioneer.py
+include hvwfg/_version.py
+global-include *.pyx *.pxd *.h

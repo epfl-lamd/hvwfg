@@ -11,7 +11,7 @@ def wfg(np.ndarray[np.double_t, ndim=2, mode="c"] points,
         np.ndarray[np.double_t, ndim=1, mode="c"] reference):
     cdef FRONT f
     cdef int i, j
-    cdef np.ndarray[np.int_t, ndim=1, mode="c"] smaller
+    cdef np.ndarray[np.int64_t, ndim=1, mode="c"] smaller
     smaller, = (points <= reference).all(axis=1).nonzero()
     if len(smaller) == 0:
         return 0.
