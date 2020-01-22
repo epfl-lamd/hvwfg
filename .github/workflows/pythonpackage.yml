@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    name: Test on Python ${{ matrix.python_version }} and ${{ matrix.os }}
+    name: Test and build on Python ${{ matrix.python_version }} and ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       max-parallel: 4
@@ -44,3 +44,22 @@ jobs:
       with:
         name: dist
         path: dist
+  build-n-publish:
+    name: Build and publish Python 🐍 distributions 📦 to PyPI and TestPyPI
+    needs: build
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Download wheels
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+      - name: Publish distribution 📦 to Test PyPI
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          password: ${{ secrets.test_pypi_password }}
+          repository_url: https://test.pypi.org/legacy/
