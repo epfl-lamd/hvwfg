@@ -38,21 +38,13 @@ jobs:
       run: |
         pip install pep517 wheel
         python -m pep517.build --source --binary --out-dir dist/ .
-    - name: Correct to manylinux
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        pip install auditwheel
-        for whl in dist/hvwfg*.whl; do
-          auditwheel repair "$whl" -w dist/
-        done
-        rm dist/hvwfg-*-linux_x86_64-whl
     - name: Upload wheel
       uses: actions/upload-artifact@v1
       with:
         name: dist
         path: dist
   build-n-publish:
-    name: Build and publish Python 🐍 distributions 📦 to PyPI and TestPyPI
+    name: Publish Python 🐍 distributions 📦 to PyPI and TestPyPI
     needs: build
     runs-on: ubuntu-18.04
     steps:
@@ -65,6 +57,15 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: dist
+      - name: Correct to manylinux
+        run: |
+          apt-get update
+          apt-get install -y patchelf
+          pip install auditwheel
+          for whl in dist/hvwfg-*-linux_x86_64.whl; do
+            auditwheel repair "$whl" -w dist/
+          done
+          rm dist/hvwfg-*-linux_x86_64.whl
       - name: Publish distribution 📦 to Test PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:
