@@ -29,8 +29,8 @@ elif sys.platform in ['win32']:
     extra_compile_args = ['/Ox']
 
 ext_modules = [
-    Extension(f"hvwfg.{name}",
-              sources=[f"hvwfg/{name}{ext}"],
+    Extension("hvwfg.{}".format(name),
+              sources=["hvwfg/{}{}".format(name, ext)],
               include_dirs=[numpy.get_include()],
               extra_compile_args=extra_compile_args)
     for name in ['wfg', 'hv4dr', 'hv5dr']
