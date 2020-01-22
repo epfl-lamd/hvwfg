@@ -40,8 +40,8 @@ def get_config():
     # _version.py
     cfg = VersioneerConfig()
     cfg.VCS = "git"
-    cfg.style = "pep440"
-    cfg.tag_prefix = "None"
+    cfg.style = "pep440-pre"
+    cfg.tag_prefix = ""
     cfg.parentdir_prefix = "hvwfg-"
     cfg.versionfile_source = "hvwfg/_version.py"
     cfg.verbose = False
