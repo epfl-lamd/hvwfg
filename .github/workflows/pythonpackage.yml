@@ -59,8 +59,8 @@ jobs:
           name: dist
       - name: Correct to manylinux
         run: |
-          apt-get update
-          apt-get install -y patchelf
+          sudo apt-get update
+          sudo apt-get install -y patchelf
           pip install auditwheel
           for whl in dist/hvwfg-*-linux_x86_64.whl; do
             auditwheel repair "$whl" -w dist/
