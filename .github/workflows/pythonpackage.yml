@@ -7,9 +7,8 @@ jobs:
     name: Test and build on Python ${{ matrix.python_version }} and ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
-      max-parallel: 4
       matrix:
-        python-version: [3.5, 3.6, 3.7]
+        python-version: [3.5, 3.6, 3.7, 3.8]
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
     - uses: actions/checkout@v1
@@ -39,6 +38,14 @@ jobs:
       run: |
         pip install pep517 wheel
         python -m pep517.build --source --binary --out-dir dist/ .
+    - name: Correct to manylinux
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        pip install auditwheel
+        for whl in dist/hvwfg*.whl; do
+          auditwheel repair "$whl" -w dist/
+        done
+        rm dist/hvwfg-*-linux_x86_64-whl
     - name: Upload wheel
       uses: actions/upload-artifact@v1
       with:
