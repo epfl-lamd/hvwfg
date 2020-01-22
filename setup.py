@@ -2,10 +2,10 @@ import os
 import sys
 
 import numpy
+import versioneer
+from Cython.Build import cythonize
 from setuptools import find_packages, setup
 from setuptools.extension import Extension
-from Cython.Build import cythonize
-
 
 if sys.platform in ['darwin', 'linux', 'bsd']:
     extra_compile_args = ['-O3']
@@ -26,7 +26,8 @@ with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name="hvwfg",
-    version="1.0.0",
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     description="Python wrapper of the WFG hypervolume calculation functions",
     long_description=long_description,
     long_description_content_type='text/markdown',
