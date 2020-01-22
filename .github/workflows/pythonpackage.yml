@@ -37,8 +37,8 @@ jobs:
         pytest
     - name: Build wheel
       run: |
-        pip install wheel
-        python setup.py bdist_wheel
+        pip install pep517 wheel
+        python -m pep517.build --source --binary --out-dir dist/ .
     - name: Upload wheel
       uses: actions/upload-artifact@v1
       with:
