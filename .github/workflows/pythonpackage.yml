@@ -8,12 +8,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: [3.5, 3.6, 3.7, 3.8, 3.9]
+        python-version: [3.9, 3.10, 3.11, 3.12]
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
     - name: Enable Developer Command Prompt
@@ -39,7 +39,7 @@ jobs:
         pip install pep517 wheel
         python -m pep517.build --source --binary --out-dir dist/ .
     - name: Upload wheel
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: dist
         path: dist
@@ -48,11 +48,11 @@ jobs:
     needs: build
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@master
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v1
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.7
+          python-version: 3.11
       - name: Download wheels
         uses: actions/download-artifact@v1
         with:
